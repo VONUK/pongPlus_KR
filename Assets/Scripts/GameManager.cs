@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
     public int maxScore = 10;
     public int currectScore = 0;
 
+    public DateTime matchStart;
+
     public TMP_InputField playerOneNickname;
     public TMP_InputField playerTwoNickname;
 
@@ -30,6 +33,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             gameUI.onStartGame += OnStartGame;
+            gameUI.StartGame();
         }
     }
 
@@ -63,7 +67,9 @@ public class GameManager : MonoBehaviour
                     playerOneNickname.text,
                     playerTwoNickname.text,
                     scorePlayer1,
-                    scorePlayer2
+                    scorePlayer2,
+                    matchStart,
+                    winnerId
                     );
             }
             else
@@ -81,6 +87,7 @@ public class GameManager : MonoBehaviour
 
     private void OnStartGame()
     {
+        matchStart = DateTime.Now;
         scorePlayer1 = 0;
         scorePlayer2 = 0;
         currectScore = 0;
