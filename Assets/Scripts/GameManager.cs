@@ -15,6 +15,11 @@ public class GameManager : MonoBehaviour
     public int maxScore = 10;
     public int currectScore = 0;
 
+    public TMP_InputField playerOneNickname;
+    public TMP_InputField playerTwoNickname;
+
+    public PongDBService DBService;
+
     private void Awake()
     {
         if (instance)
@@ -54,6 +59,12 @@ public class GameManager : MonoBehaviour
             if (Mathf.Abs(scorePlayer2 - scorePlayer1) > 1)
             {
                 gameUI.OnGameEnds(winnerId);
+                DBService.SaveMatchResult(
+                    playerOneNickname.text,
+                    playerTwoNickname.text,
+                    scorePlayer1,
+                    scorePlayer2
+                    );
             }
             else
             {
@@ -67,7 +78,6 @@ public class GameManager : MonoBehaviour
             onReset?.Invoke();
         }
     }
-
 
     private void OnStartGame()
     {

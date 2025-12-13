@@ -1841,6 +1841,9 @@ MonoBehaviour:
   scorePlayer2: 0
   maxScore: 4
   currectScore: 0
+  playerOneNickname: {fileID: 410081288}
+  playerTwoNickname: {fileID: 774346059}
+  DBService: {fileID: 1998304376}
 --- !u!4 &791615676
 Transform:
   m_ObjectHideFlags: 0
