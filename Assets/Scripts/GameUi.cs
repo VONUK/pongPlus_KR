@@ -12,10 +12,15 @@ public class GameUi : MonoBehaviour
     public GameObject leadeBoardObject;
     public GameObject scoreTextObject;
     public GameObject loginObject;
+    public GameObject errorLogPass;
+    public GameObject successDelete;
     public TextMeshProUGUI winText;
 
     public TMP_InputField playerOneInput;
     public TMP_InputField playerTwoInput;
+
+    public TMP_InputField adminlogin;
+    public TMP_InputField adminPassword;
 
     public System.Action onStartGame;
 
@@ -41,21 +46,28 @@ public class GameUi : MonoBehaviour
             scoreTextplayer2.HightLight();
         }
     }
+
+    private void HideAllObject()
+    {
+        menuObject.SetActive(false);
+        winnerBoardObject.SetActive(false);
+        leadeBoardObject.SetActive(false);
+        scoreTextObject.SetActive(false);
+        loginObject.SetActive(false);
+        errorLogPass.SetActive(false);
+        successDelete.SetActive(false);
+    }
     public void StartGame()
     {
-        menuObject.SetActive(true);
-        winnerBoardObject.SetActive(false);
+        HideAllObject();
         scoreTextObject.SetActive(true);
-        leadeBoardObject.SetActive(false);
-        loginObject.SetActive(false);
+        menuObject.SetActive(true);
     }
 
     public void OnMenuGameButtonClicked()
     {
+        HideAllObject();
         menuObject.SetActive(true);
-        winnerBoardObject.SetActive(false);
-        leadeBoardObject.SetActive(false);
-        loginObject.SetActive(false);
         scoreTextObject.SetActive(true);
         scoreTextPlayer1.SetScore(0);
         scoreTextplayer2.SetScore(0);
@@ -63,31 +75,38 @@ public class GameUi : MonoBehaviour
 
     public void OnStartGameButtonClicked()
     {
-        menuObject.SetActive(false);
-        winnerBoardObject.SetActive(false);
-        loginObject.SetActive(false);
-        leadeBoardObject.SetActive(false);
+        HideAllObject();
         scoreTextObject.SetActive(true);
         onStartGame?.Invoke();
     }
 
     public void OnStatGameButtonClicked()
     {
-        menuObject.SetActive(false);
-        winnerBoardObject.SetActive(false);
-        loginObject.SetActive(false);
-        scoreTextObject.SetActive(false);
+        HideAllObject();
         leadeBoardObject.SetActive(true);
         ShowLeaderboard();
     }
     public void OnDeleteStatGameButtonClicked()
     {
-        loginObject.SetActive(true);
-        menuObject.SetActive(false);
-        winnerBoardObject.SetActive(false);
-        scoreTextObject.SetActive(false);
+        HideAllObject();
         leadeBoardObject.SetActive(true);
-        ShowLeaderboard();
+        loginObject.SetActive(true);
+        adminlogin.text = "";
+        adminPassword.text = "";
+    }
+
+    public void OnAproveDeleteStatGameButtonClicked()
+    {
+        if (dBService.DeletePlayersStat(adminlogin.text, adminPassword.text))
+        {
+            successDelete.SetActive(true);
+            errorLogPass.SetActive(false);
+        }
+        else
+        {
+            successDelete.SetActive(false);
+            errorLogPass.SetActive(true);
+        }
     }
 
     public void OnGameEnds(int winnerId)

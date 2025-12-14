@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
                     scorePlayer2,
                     matchStart,
                     winnerId
-                    );
+                );
             }
             else
             {

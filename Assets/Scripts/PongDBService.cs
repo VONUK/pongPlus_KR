@@ -43,7 +43,7 @@ public class PongDBService : MonoBehaviour
                 Debug.Log("[DB - pongPlus][GOOOOOOOOOOOL!]");
                 DBStatusFiled.SetActive(true);
                 DBStatus.text = "Connected DB";
-                DBStatus.color = Color.green;
+                DBStatus.color = new Color32(104, 173, 138, 255);
             }
         }
         catch (System.Exception error)
@@ -51,7 +51,7 @@ public class PongDBService : MonoBehaviour
             DBStatusFiled.SetActive(true);
             Debug.LogError("[DB - pongPlus][Connection ERROR] - " + error.Message);
             DBStatus.text = "No connection DB";
-            DBStatus.color = Color.red;
+            DBStatus.color = new Color32(173, 104, 104, 255);
         }
     }
 
@@ -320,5 +320,39 @@ public class PongDBService : MonoBehaviour
         }
 
         return rows;
+    }
+
+    public bool DeletePlayersStat(string login, string pass)
+    {
+        if (login == "VONUK" && pass == "VONUKpass")
+        {
+            try
+            {
+                const string deleteStatsQuery = "DELETE FROM playersstats;";
+
+                using (var connection = new NpgsqlConnection(_connectionString))
+                {
+                    connection.Open();
+                    using (var command = new NpgsqlCommand(deleteStatsQuery, connection))
+                    {
+                        int rowsAffected = command.ExecuteNonQuery();
+                        Debug.Log($"Таблица playersstats очищена. Удалено строк: {rowsAffected}");
+                    }
+                }
+
+                Debug.Log("GOOOOOOOOOOOL! Players stat have been delete!");
+                return true;
+            }
+            catch (System.Exception deleteError)
+            {
+                Debug.LogError("[DB][Errore in ClearPlayersStats]: " + deleteError.Message);
+                return false;
+            }
+        }
+        else
+        {
+            Debug.Log("[LOGIN][Incorrect username or password]");
+            return false;
+        }
     }
 }
